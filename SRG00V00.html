@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Uniform Stitchers - B2B Solutions</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; background: #f8f9fa; }
+        header { background: #2c3e50; color: #fff; padding: 20px 0; text-align: center; }
+        nav { background: #34495e; padding: 10px 0; }
+        nav a { color: #fff; margin: 0 15px; text-decoration: none; font-weight: bold; }
+        .container { max-width: 900px; margin: 30px auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.07);}
+        h1, h2 { margin-top: 0; }
+        .services { display: flex; gap: 30px; flex-wrap: wrap; }
+        .service { flex: 1 1 250px; background: #ecf0f1; padding: 20px; border-radius: 6px; margin-bottom: 20px; }
+        footer { background: #2c3e50; color: #fff; text-align: center; padding: 15px 0; margin-top: 40px; }
+        .edit-btn { position: fixed; top: 20px; right: 20px; z-index: 1000; padding: 10px 18px; background: #2980b9; color: #fff; border: none; border-radius: 5px; cursor: pointer; }
+        .editable[contenteditable="true"] { outline: 2px dashed #2980b9; background: #eaf6fb; }
+        @media (max-width: 700px) {
+            .services { flex-direction: column; }
+        }
+    </style>
+    <script>
+        function toggleEditMode() {
+            const editables = document.querySelectorAll('.editable');
+            const isEditable = editables[0].getAttribute('contenteditable') === 'true';
+            editables.forEach(el => el.setAttribute('contenteditable', !isEditable));
+            document.getElementById('editBtn').textContent = isEditable ? 'Edit Mode' : 'Exit Edit Mode';
+        }
+        window.onload = function() {
+            document.querySelectorAll('.editable').forEach(el => el.setAttribute('contenteditable', 'false'));
+        }
+        // Example: Send contact form data to backend (see backend.js)
+        function sendContact() {
+            const email = document.getElementById('contactEmail').value;
+            const message = document.getElementById('contactMessage').value;
+            fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, message })
+            })
+            .then(res => res.json())
+            .then(data => alert(data.status))
+            .catch(() => alert('Error sending message.'));
+        }
+    </script>
+</head>
+<body>
+    <button id="editBtn" class="edit-btn" onclick="toggleEditMode()">Edit Mode</button>
+    <header>
+        <h1 class="editable">Uniform Stitchers</h1>
+        <p class="editable">Your Trusted B2B Uniform Manufacturing Partner</p>
+    </header>
+    <nav>
+        <a href="#about">About Us</a>
+        <a href="#services">Services</a>
+        <a href="#contact">Contact</a>
+    </nav>
+    <div class="container">
+        <section id="about">
+            <h2 class="editable">About Us</h2>
+            <p class="editable">
+                Uniform Stitchers specializes in high-quality, custom uniform manufacturing for businesses, schools, and organizations. With years of experience in the textile industry, we deliver durable and comfortable uniforms tailored to your brand and requirements.
+            </p>
+        </section>
+        <section id="services">
+            <h2 class="editable">Our Services</h2>
+            <div class="services">
+                <div class="service">
+                    <h3 class="editable">Custom Uniform Design</h3>
+                    <p class="editable">Collaborate with our design team to create uniforms that reflect your brand identity and meet your functional needs.</p>
+                </div>
+                <div class="service">
+                    <h3 class="editable">Bulk Manufacturing</h3>
+                    <p class="editable">Efficient large-scale production with strict quality control, ensuring timely delivery for all your uniform needs.</p>
+                </div>
+                <div class="service">
+                    <h3 class="editable">Branding & Embroidery</h3>
+                    <p class="editable">Add logos, names, and other branding elements with our advanced embroidery and printing services.</p>
+                </div>
+            </div>
+        </section>
+        <section id="contact">
+            <h2 class="editable">Contact Us</h2>
+            <p class="editable">
+                Email: <a href="mailto:info@uniformstitchers.com">info@uniformstitchers.com</a><br>
+                Phone: +1-234-567-8901<br>
+                Address: 123 Business Park, Industrial Area, City, Country
+            </p>
+            <div>
+                <input type="email" id="contactEmail" placeholder="Your Email" required>
+                <textarea id="contactMessage" placeholder="Your Message" required></textarea>
+                <button onclick="sendContact()">Send</button>
+            </div>
+        </section>
+    </div>
+    <footer>
+        <span class="editable">&copy; 2024 Uniform Stitchers. All rights reserved.</span>
+    </footer>
+</body>
+</html>
